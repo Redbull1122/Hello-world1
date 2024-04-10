@@ -1,0 +1,177 @@
+</html>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+
+  <title>TechDevShop</title>
+  <meta charset="utf-8">
+  <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Aclonica", sans-serif;
+      margin: 0;
+      background-color: #333;
+
+    }
+
+    .topnav {
+      overflow: hidden;
+      font-family: "Aclonica", sans-serif;
+      background-color: #1b1b1b;
+      display: flex;
+    }
+
+    .topnav a {
+      color: #f2f2f2;
+      font-size: 18px;
+      padding: 14px 16px;
+      font-family: "Aclonica", sans-serif;
+      text-decoration: none;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    #name {
+      color: #f2f2f2;
+      font-family: "Aclonica", sans-serif;
+      font-size: 18px;
+      padding: 14px 16px;
+    }
+
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      font-size: 18px;
+      font-family: "Aclonica", sans-serif;
+      flex-basis: 100%;
+      max-width: 100%;
+      display: flex;
+      color: rgb(255, 255, 255);
+      justify-content: center;
+    }
+
+    input {
+      flex-basis: 100%;
+      width: auto;
+      font-family: "Aclonica", sans-serif;
+      padding: 5px 10px;
+      border: 3px solid #747474;
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    .button {
+      width: 100%;
+      background-color: #000000;
+      color: #ffffff;
+      font-size: 16px;
+      font-family: "Aclonica", sans-serif;
+      border: 2px solid #747474;
+      ;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    h1 {
+      font-family: "Aclonica", sans-serif;
+      text-align: center;
+      color: #f2f2f2;
+      font-size: 24px;
+      box-shadow: 0px 0px 20px rgba(255, 0, 0, 1);
+      text-shadow: 2px 2px 4px #000000;
+      margin-bottom: 20px;
+    }
+
+    #sform {
+      display: block;
+      margin-right: auto;
+    }
+
+    #query {
+      flex-basis: 100%;
+      width: auto;
+      margin-left: auto;
+      font-family: "Aclonica", sans-serif;
+      padding: 5px 10px;
+      border: 3px solid #747474;
+      background-color: #ffffff;
+      color: rgb(0, 0, 0);
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    #search_button {
+      flex-basis: 100%;
+      width: auto;
+      font-family: "Aclonica", sans-serif;
+      padding: 5px 10px;
+      margin-top: 10px;
+      border: 3px solid #747474;
+      background-color: #000000;
+      color: rgb(255, 255, 255);
+      text-align: center;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  {% if user.is_authenticated %}
+  <div class="topnav">
+    <div id="name">TechDevShop</div>
+    <a href="{% url 'user_home' %}" class='main_buttons'>Profile</a>
+    <a href="{% url 'shop' %}" class='main_buttons'>Home</a>
+    <a href="{% url 'Cart' %}" class='main_buttons'>Cart</a>
+    <a href="{% url 'AboutUs' %}" class='main_buttons'>About Us</a>
+    <a href="{% url 'Contact' %}" class='main_buttons'>Contact</a>
+    {% if request.user.is_staff or request.user.is_superuser %}
+    <a href="/admin/" class="admin_button">Admin</a>
+    {% endif %}
+    <a href="{% url 'logout' %}">Logout</a>
+    <form method="post" action="{% url 'search_res' %}" id='sform'>
+      {% csrf_token %}
+      <input type="text" id="query" name="query">
+      <input type="submit" value="Search" id="search_button">
+    </form>
+  </div>
+  {% block content %}
+  <h1>Update Profile</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Save</button>
+  </form>
+  {% endblock content %}
+  {% else %}
+  <a href="{% url 'login' %}" class='auth_button'>Login</a>
+  <a href="{% url 'register' %}" class='auth_button'>Registration</a>
+  {% endif %}
+</body>
+
+</html>
